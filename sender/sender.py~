@@ -1,0 +1,44 @@
+#!/usr/bin/python
+import time
+import zmq
+import os
+import string
+
+context = zmq.Context()
+socket = context.socket(zmq.REQ)
+socket.connect("tcp://127.0.0.1:5000")
+
+def whatlogs():
+    if os.path.exists('logfiles'):
+	logs = list()
+        try:
+            f = open('logfiles', 'r')
+	except: 
+	    print 'bar'
+        for row in f.readlines():
+	    rowSplit = string.split(row, ' ', 2)
+	    logs.append(rowSplit)
+	return logs
+
+def watch():
+    logs = whatlogs()
+    pointers = logs
+    i = 0
+    for logfile in logs:
+        pointers[i][1] = open(logfile[1][:-1], 'r')
+	i += 1
+
+    while True:
+	for pointer in pointers:
+            new = pointer[1].readline()
+            # Once all lines are read this just returns ''
+            # until the file changes and a new line appears
+            if new:
+                yield (pointer[0], new)
+        
+
+for a, b in watch():
+    msg = "msg %s" % a
+    socket.send(msg)
+    msg_in = socket.recv()
+
