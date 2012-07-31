@@ -38,9 +38,7 @@ def getDetails(dirtyString):
     offset, time = getTimestamp(offset, dirtyString)
     return time, hostname, dirtyString[offset+2:].strip()
 
-
-while True:
-    msg = socket.recv()
+def switch(msg):
     message = string.split(msg, '|', 1)
     if str(message[0]).strip() == "security":
         time, hostname, message = getDetails(message[1])
@@ -60,4 +58,8 @@ while True:
         print message
         print process
         print pid
+
+while True:
+    msg = socket.recv()
+    switch(msg)
     socket.send(msg)
