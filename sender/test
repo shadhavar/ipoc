@@ -1,1 +1,1 @@
-{"generated": {"partition": 64771, "inode": 1726295, "offset": 588911}, "messages": {"partition": 64770, "inode": 28988, "offset": 1248179}, "security": {"partition": 64770, "inode": 28989, "offset": 3561}}
+{"stats": {"partition": 64771, "inode": 1704470, "offset": 2363331}, "security": {"partition": 64770, "inode": 28989, "offset": 9395}, "messages": {"partition": 64770, "inode": 28988, "offset": 2247110}}
